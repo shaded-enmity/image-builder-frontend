@@ -4,9 +4,12 @@ import {
   Alert,
   AlertActionCloseButton,
   Button,
+  List,
+  ListItem,
   Popover,
   Text,
   TextContent,
+  Title,
 } from '@patternfly/react-core';
 import {
   HelpIcon,
@@ -27,6 +30,51 @@ import DocumentationButton from '../sharedComponents/DocumentationButton';
 
 export const LandingPage = () => {
   const [showBetaAlert, setShowBetaAlert] = useState(true);
+
+  const toBetaContent = {
+    title: "Build and launch AWS systems with custom content",
+    content: <>
+      <p>
+        Red Hat is hard at work building tools to help you operate in an
+        open hybrid cloud environment.
+      </p>
+      <p>
+        We are currently focused on allowing you to create customized
+        operating system images, deploying hosts based on these images in
+        the cloud, and managing the lifecycle of these hosts. For more
+        information, check out our blog post!
+      </p>
+      <p>
+        We need your help! Please evaluate the new features in service
+        preview mode and give us feedback!
+      </p>
+    </>,
+  };
+
+  const inBetaContent = {
+    title: "Learn how to build images with custom content and launch them",
+    content: <>
+      <p>
+        Lets help you get started on the right foor. Click on one of the
+        links below to learn how to take advantage of the new features.
+      </p>
+      <p>
+          <Title headingLevel="h4">To launch images:</Title>
+          <List isPlain>
+            <ListItem><Button variant='link' href='TBD'>Launch an AWS Image</Button></ListItem>
+            <ListItem><Button variant='link' href='TBD'>Launch an Azure Image</Button></ListItem>
+          </List>
+      </p>
+      <p>
+          <Title headingLevel="h4">To build images with custom content:</Title>
+          <List isPlain>
+            <ListItem><Button variant='link' href='TBD'>Build an Image with Custom Content</Button></ListItem>
+          </List>
+      </p>
+    </>,
+  };
+
+  const alertContent = isBeta() ? inBetaContent : toBetaContent;
 
   return (
     <React.Fragment>
@@ -86,16 +134,16 @@ export const LandingPage = () => {
         </Popover>
       </PageHeader>
       <section className="pf-l-page__main-section pf-c-page__main-section">
-        {!isBeta() && showBetaAlert && (
+        {showBetaAlert && (
           <Alert
             className="pf-u-mb-xl"
             isInline
             variant="default"
-            title="Build and launch AWS systems with custom content"
+            title={alertContent.title}
             actionClose={
               <AlertActionCloseButton onClose={() => setShowBetaAlert(false)} />
             }
-            actionLinks={
+            actionLinks={!isBeta() &&
               <Button
                 isInline
                 component="a"
@@ -106,20 +154,7 @@ export const LandingPage = () => {
               </Button>
             }
           >
-            <p>
-              Red Hat is hard at work building tools to help you operate in an
-              open hybrid cloud environment.
-            </p>
-            <p>
-              We are currently focused on allowing you to create customized
-              operating system images, deploying hosts based on these images in
-              the cloud, and managing the lifecycle of these hosts. For more
-              information, check out our blog post!
-            </p>
-            <p>
-              We need your help! Please evaluate the new features in service
-              preview mode and give us feedback!
-            </p>
+            {alertContent.content}
           </Alert>
         )}
         <ImagesTable />
