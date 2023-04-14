@@ -4,11 +4,13 @@ import {
   Alert,
   AlertActionCloseButton,
   Button,
+  ExpandableSection,
   Popover,
   Text,
   TextContent,
 } from '@patternfly/react-core';
 import {
+  ArrowRightIcon,
   HelpIcon,
   CodeBranchIcon,
   ExternalLinkAltIcon,
@@ -27,6 +29,7 @@ import DocumentationButton from '../sharedComponents/DocumentationButton';
 
 export const LandingPage = () => {
   const [showBetaAlert, setShowBetaAlert] = useState(true);
+  const [showHint, setShowHint] = useState(true);
 
   return (
     <React.Fragment>
@@ -115,6 +118,39 @@ export const LandingPage = () => {
               content.
             </p>
           </Alert>
+        )}
+        {isBeta() && (
+          <ExpandableSection className="pf-m-light pf-u-mb-xl expand-section"
+            toggleText="Help get started with beta features"
+            onToggle={setShowHint} isExpanded={showHint} displaySize="large"
+          >
+            <p>
+              For help getting started, access the quick starts for our beta features.
+            </p>
+            <p>
+                <p>
+                  <Button icon={<ArrowRightIcon />} iconPosition="right"
+                    variant="link" isInline component="a" href="TBD"
+                  >
+                    Launch an AWS Image
+                  </Button>
+                </p>
+                <p>
+                  <Button icon={<ArrowRightIcon />} iconPosition="right"
+                    variant="link" isInline component="a" href="TBD"
+                  >
+                    Launch an Azure Image
+                  </Button>
+                </p>
+                <p>
+                  <Button icon={<ArrowRightIcon />} iconPosition="right"
+                    variant="link" isInline component="a"  href="TBD"
+                  >
+                    Build an Image with Custom Content
+                  </Button>
+                </p>
+            </p>
+          </ExpandableSection>
         )}
         <ImagesTable />
       </section>
