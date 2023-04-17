@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
 import {
+  QuickStartContext,
+  QuickStartContextValuestValues,
+} from '@patternfly/quickstarts';
+import {
   Alert,
   AlertActionCloseButton,
   Button,
@@ -20,6 +24,7 @@ import {
   PageHeader,
   PageHeaderTitle,
 } from '@redhat-cloud-services/frontend-components';
+import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { Outlet } from 'react-router-dom';
 
 import isBeta from '../../Utilities/isBeta';
@@ -27,9 +32,27 @@ import ImagesTable from '../ImagesTable/ImagesTable';
 import './LandingPage.scss';
 import DocumentationButton from '../sharedComponents/DocumentationButton';
 
+import * as awsQuickStart from 'awsquickstart.json';
+import * as azureQuickStart from 'azurequickstart.json';
+import * as contentQuickStart from 'contentquickstart.json';
+
 export const LandingPage = () => {
   const [showBetaAlert, setShowBetaAlert] = useState(true);
   const [showHint, setShowHint] = useState(true);
+
+  const {
+    setActiveQuickStart
+  } = React.useContext<QuickStartContextValues>(QuickStartContext);
+
+  const chrome = useChrome();
+  const { quickStarts } = chrome;
+
+  quickStarts.set(
+    'hmsPreview',
+    [awsQuickStart, azureQuickStart, contentQuickStart]
+  )
+
+  alert(`${contentQuickStart.name}`)
 
   return (
     <React.Fragment>
